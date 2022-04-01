@@ -96,30 +96,63 @@ To expose a new Thing (server mode), you need first to create the Thing by passi
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>thing</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>WoT</span>.<span style=color:#a6e22e>produce</span>({
-      <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;counter&#34;</span>,
-      <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;counter example Thing&#34;</span>,
-      <span style=color:#e6db74>&#34;@context&#34;</span><span style=color:#f92672>:</span> [<span style=color:#e6db74>&#34;https://www.w3.org/2019/wot/td/v1&#34;</span>, {<span style=color:#e6db74>&#34;iot&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;http://example.org/iot&#34;</span>}],
-      <span style=color:#a6e22e>properties</span><span style=color:#f92672>:</span> {
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>WoT</span>.<span style=color:#a6e22e>produce</span>({
+    <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;counter&#34;</span>,
+    <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;counter example Thing&#34;</span>,
+    <span style=color:#e6db74>&#34;@context&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;https://www.w3.org/2019/wot/td/v1&#34;</span>,
+    <span style=color:#a6e22e>properties</span><span style=color:#f92672>:</span> {
         <span style=color:#a6e22e>count</span><span style=color:#f92672>:</span> {
-          <span style=color:#a6e22e>type</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;integer&#34;</span>,
-          <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;current counter value&#34;</span>,
-          <span style=color:#e6db74>&#34;iot:Custom&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;example annotation&#34;</span>,
-          <span style=color:#a6e22e>observable</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
-          <span style=color:#a6e22e>readOnly</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>
+            <span style=color:#a6e22e>type</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;integer&#34;</span>,
+            <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;current counter value&#34;</span>,
+            <span style=color:#a6e22e>observable</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
+            <span style=color:#a6e22e>readOnly</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>,
         }
-      },
-      <span style=color:#a6e22e>actions</span><span style=color:#f92672>:</span> {
+    },
+    <span style=color:#a6e22e>actions</span><span style=color:#f92672>:</span> {
         <span style=color:#a6e22e>increment</span><span style=color:#f92672>:</span> {
-          <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Incrementing counter value (with optional step parameter as uriVariable)&#34;</span>,
-          <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> {
-            <span style=color:#a6e22e>step</span><span style=color:#f92672>:</span> { <span style=color:#e6db74>&#34;type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;integer&#34;</span>, <span style=color:#e6db74>&#34;minimum&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;maximum&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>250</span> }
-          }
+            <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;Incrementing counter value&#34;</span>,
+            <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> {
+                <span style=color:#a6e22e>step</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>type</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;integer&#34;</span>, <span style=color:#a6e22e>minimum</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>maximum</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>250</span> },
+            },
         }
-      }
-   });
-</code></pre></td></tr></table></div></div><p>This code initiates the creation of a Thing named &ldquo;counter&rdquo; with its interactions and adds metadata such as context to that Thing.</p><p>This will create the property, so it can be exposed and accessed both using the Scripting API and using a binding (by default, the HTTP, and CoAP bindings are used to expose Things on node-wot).</p><p>Once your run the Servient, the exposed property will be accessible at http://localhost:8080/counter/properties/count as illustrated below:</p><p>Now that we have our property exposed, we can start adding our actions.
-An action is added to Servient as described below:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+    }
+})
+    .<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>thing</span>) =&gt; {
+        <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;Produced &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span>);
+
+        <span style=color:#75715e>// init property values
+</span><span style=color:#75715e></span>		<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// set property handlers
+</span><span style=color:#75715e></span>		<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// set action handlers
+</span><span style=color:#75715e></span>		<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>
+        <span style=color:#75715e>// expose the thing
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>expose</span>().<span style=color:#a6e22e>then</span>(() =&gt; {
+            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; ready&#34;</span>);
+        });
+    })
+    .<span style=color:#66d9ef>catch</span>((<span style=color:#a6e22e>e</span>) =&gt; {
+        <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>e</span>);
+    });
+</code></pre></td></tr></table></div></div><p>This code initiates the creation of a Thing named &ldquo;counter&rdquo; with its interactions and adds metadata such as context to that Thing.</p><p>This will create the property, so it can be exposed and accessed both using the Scripting API and using a binding (by default, the HTTP, and CoAP bindings are used to expose Things on node-wot).</p><p>Once your run the Servient, the exposed property will be accessible at http://localhost:8080/counter/properties/count as illustrated below:</p><p>Before we expose properties/actions/events, we need to add handlers (e.g., an action handler is added as described below).</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -132,46 +165,66 @@ An action is added to Servient as described below:</p><div class=highlight><div 
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#34;increment&#34;</span>, (<span style=color:#a6e22e>params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
-        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>count</span>) =&gt; {
-            <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>step</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
-            <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;object&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;uriVariables&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
-                <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#39;step&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>] <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>] <span style=color:#66d9ef>instanceof</span> Array) {
-                    <span style=color:#a6e22e>step</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>][<span style=color:#e6db74>&#39;step&#39;</span>];
-                }
-            }
-            <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>value</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>count</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>step</span>;
-            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;Incrementing count from &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>count</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; to &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>value</span>);
-            <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>, <span style=color:#a6e22e>value</span>);
-        });
-    });
-</code></pre></td></tr></table></div></div><p>Within an action, you can retrieve properties using the &ldquo;readProperty()&rdquo; function and write the value to the Thing once your value manipulated using the &ldquo;writeProperty()&rdquo; function.</p><p>The full counter example is available in the repository under <code>examples/scripts/counter.js</code>.</p><h3 id=client-mode>Client Mode</h3><p>Node-wot allows you also to consume existing Things exposed using the WoT.
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#34;increment&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
+	<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>step</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+	<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#34;object&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;uriVariables&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
+		<span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;step&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>.<span style=color:#a6e22e>uriVariables</span>) {
+			<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>.<span style=color:#a6e22e>uriVariables</span> <span style=color:#a6e22e>as</span> <span style=color:#a6e22e>Record</span><span style=color:#f92672>&lt;</span><span style=color:#a6e22e>string</span>, <span style=color:#a6e22e>unknown</span><span style=color:#f92672>&gt;</span>;
+			<span style=color:#a6e22e>step</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>step</span> <span style=color:#a6e22e>as</span> <span style=color:#a6e22e>number</span>;
+		}
+	}
+	<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>newValue</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>count</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>step</span>;
+	<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;Incrementing count from &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>count</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; to &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>newValue</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; (with step &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>step</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;)&#34;</span>);
+	<span style=color:#a6e22e>count</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>newValue</span>;
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>undefined</span>;
+});
+</code></pre></td></tr></table></div></div><p>Within an action, you can retrieve properties by accessing its local variable (i.e., <code>count</code> in handler above).</p><p>The full counter example is available in the repository under <code>examples/scripts/counter.js</code>.</p><h3 id=client-mode>Client Mode</h3><p>Node-wot allows you also to consume existing Things exposed using the WoT.
 Assume that we have our counter example running on a machine, we can create a &ldquo;client&rdquo; to communicate with that counter.</p><p>First step is to create the Thing that we are willing to consume.
-For that, we use the exposed Thing descriptor to create that &ldquo;client&rdquo; Thing as illustrated below:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>WoTHelpers</span>.<span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>&#34;http://localhost:8080/counter&#34;</span>).<span style=color:#a6e22e>then</span>( <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>td</span>) =&gt; {
-
-    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>thing</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>WoT</span>.<span style=color:#a6e22e>consume</span>(<span style=color:#a6e22e>td</span>);
-
-}).<span style=color:#66d9ef>catch</span>( (<span style=color:#a6e22e>err</span>) =&gt; { <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;Fetch error:&#34;</span>, <span style=color:#a6e22e>err</span>); });
+For that, we use the exposed Thing descriptor to create that &ldquo;client&rdquo; Thing as illustrated below:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#a6e22e>WoTHelpers</span>.<span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>&#34;http://localhost:8080/counter&#34;</span>)
+    .<span style=color:#a6e22e>then</span>(<span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>td</span>) =&gt; {
+        <span style=color:#75715e>// using await for serial execution (note &#39;async&#39; in then() of fetch())
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>try</span> {
+            <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>thing</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>WoT</span>.<span style=color:#a6e22e>consume</span>(<span style=color:#a6e22e>td</span>);
+            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;=== TD ===&#34;</span>);
+            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#a6e22e>td</span>);
+			<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>        } <span style=color:#66d9ef>catch</span> (<span style=color:#a6e22e>err</span>) {
+            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;Script error:&#34;</span>, <span style=color:#a6e22e>err</span>);
+        }
+    })
+    .<span style=color:#66d9ef>catch</span>((<span style=color:#a6e22e>err</span>) =&gt; {
+        <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;Fetch error:&#34;</span>, <span style=color:#a6e22e>err</span>);
+    });
 </code></pre></td></tr></table></div></div><p>The created Thing enables access to all the properties and actions exposed by the &ldquo;server&rdquo; Thing.
 They can be accessed as described below:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#75715e>// read property #1
-</span><span style=color:#75715e></span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>read1</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>);
-<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;count value is&#34;</span>, <span style=color:#a6e22e>read1</span>);
+</span><span style=color:#75715e></span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>read1</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>);
+<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;count value is&#34;</span>, <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>read1</span>.<span style=color:#a6e22e>value</span>());
 </code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#75715e>// increment property #1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#75715e>// increment property #1 (without step)
 </span><span style=color:#75715e></span><span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>invokeAction</span>(<span style=color:#e6db74>&#34;increment&#34;</span>);
-<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>inc1</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>);
-<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;count value after increment #1 is&#34;</span>, <span style=color:#a6e22e>inc1</span>);
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>inc1</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;count&#34;</span>);
+<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>&#34;count value after increment #1 is&#34;</span>, <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>inc1</span>.<span style=color:#a6e22e>value</span>());
 </code></pre></td></tr></table></div></div><p>Modifying those properties by invoking the actions result on modifications on the &ldquo;server&rdquo; Thing.
 The full client example is available in the repository at <code>examples/scripts/counter-client.js</code>, which can be run using the same <code>cli.js</code> but with the <code>--clientonly</code> flag:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>wot@node-wot:~$ node packages/cli/dist/cli.js examples/scripts/counter.js --clientonly</code></pre></div><h2 id=conclusion>Conclusion</h2><p>WoT presents an interesting approach to build IoT applications.
 Its adoption by the industry will be a significant step towards fighting the risk of fragmentation that may limit the development of IoT applications.

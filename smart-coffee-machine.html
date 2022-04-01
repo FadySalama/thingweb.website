@@ -108,7 +108,7 @@ This produced TD can then be used by other Things or clients to interact with th
     }
 })
 </code></pre></td></tr></table></div></div><p>The full script is available at <a href=https://github.com/eclipse/thingweb.node-wot/blob/master/packages/examples/src/scripts/smart-coffee-machine.ts>node-wot GitHub repository</a>.
-Note that, all affordances (i.e. property, action and event) should be added withing the <code>produce</code> method.</p><p>After exposing the Thing, we need to initialize the properties and all required handlers.
+Note that, all affordances (i.e. property, action and event) should be added withing the <code>produce</code> method.</p><p>After producing the Thing, we need to initialize the properties and all required handlers.
 This is done by chaining <code>.then</code> method after <code>WoT.produce()</code>.
 Property initialization looks as follows.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
@@ -120,17 +120,27 @@ Property initialization looks as follows.</p><div class=highlight><div style=col
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>.<span style=color:#a6e22e>then</span>( (<span style=color:#a6e22e>thing</span>) =&gt; {
-    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>, {
-        <span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#39;water&#39;</span>),
-        <span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#39;milk&#39;</span>),
-        <span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#39;chocolate&#39;</span>),
-        <span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#39;coffeeBeans&#39;</span>),
-    });
-    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;possibleDrinks&#39;</span>, [<span style=color:#e6db74>&#39;espresso&#39;</span>, <span style=color:#e6db74>&#39;americano&#39;</span>, <span style=color:#e6db74>&#39;cappuccino&#39;</span>, <span style=color:#e6db74>&#39;latte&#39;</span>, <span style=color:#e6db74>&#39;hotChocolate&#39;</span>, <span style=color:#e6db74>&#39;hotWater&#39;</span>]);
-    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;maintenanceNeeded&#39;</span>, <span style=color:#66d9ef>false</span>);
-    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;schedules&#39;</span>, []);
-</code></pre></td></tr></table></div></div><p>In case a property needs a special handler when writing its value, we first need to override its <code>propertyWriteHandler</code>.
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>.<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>thing</span>) =&gt; {
+	<span style=color:#75715e>// Initialize the property values
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>allAvailableResources</span> <span style=color:#f92672>=</span> {
+		<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#34;water&#34;</span>),
+		<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#34;milk&#34;</span>),
+		<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#34;chocolate&#34;</span>),
+		<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#34;coffeeBeans&#34;</span>),
+	};
+	<span style=color:#a6e22e>possibleDrinks</span> <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;espresso&#34;</span>, <span style=color:#e6db74>&#34;americano&#34;</span>, <span style=color:#e6db74>&#34;cappuccino&#34;</span>, <span style=color:#e6db74>&#34;latte&#34;</span>, <span style=color:#e6db74>&#34;hotChocolate&#34;</span>, <span style=color:#e6db74>&#34;hotWater&#34;</span>];
+	<span style=color:#a6e22e>maintenanceNeeded</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+	<span style=color:#a6e22e>schedules</span> <span style=color:#f92672>=</span> [];
+	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#34;allAvailableResources&#34;</span>, <span style=color:#66d9ef>async</span> () =&gt; <span style=color:#a6e22e>allAvailableResources</span>);
+	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#34;possibleDrinks&#34;</span>, <span style=color:#66d9ef>async</span> () =&gt; <span style=color:#a6e22e>possibleDrinks</span>);
+	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#34;maintenanceNeeded&#34;</span>, <span style=color:#66d9ef>async</span> () =&gt; <span style=color:#a6e22e>maintenanceNeeded</span>);
+	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#34;schedules&#34;</span>, <span style=color:#66d9ef>async</span> () =&gt; <span style=color:#a6e22e>schedules</span>);
+</code></pre></td></tr></table></div></div><p>In case a property needs a write handler, we can set the according <code>propertyWriteHandler</code>.
 See an example below.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
@@ -141,18 +151,26 @@ See an example below.</p><div class=highlight><div style=color:#f8f8f2;backgroun
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#75715e>// Override a write handler for servedCounter property,
-</span><span style=color:#75715e></span>    <span style=color:#75715e>// raising maintenanceNeeded flag when the value exceeds 1000 drinks
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyWriteHandler</span>(<span style=color:#e6db74>&#39;servedCounter&#39;</span>, (<span style=color:#a6e22e>val</span>) =&gt; {
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-            <span style=color:#a6e22e>resolve</span>(<span style=color:#a6e22e>val</span>);
-            <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>val</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>1000</span>) {
-                <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;maintenanceNeeded&#39;</span>, <span style=color:#66d9ef>true</span>);
-            }
-        });
-    });
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>	<span style=color:#75715e>// set write handler for servedCounter property,
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// raising maintenanceNeeded flag when the value exceeds 1000 drinks
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyWriteHandler</span>(<span style=color:#e6db74>&#34;servedCounter&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>val</span>) =&gt; {
+		<span style=color:#a6e22e>servedCounter</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>val</span>.<span style=color:#a6e22e>value</span>();
+		<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>servedCounter</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>1000</span>) {
+			<span style=color:#a6e22e>maintenanceNeeded</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+			<span style=color:#75715e>// Notify a &#34;maintainer&#34; when the value has changed
+</span><span style=color:#75715e></span>			<span style=color:#75715e>// (the notify function here simply logs a message to the console)
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>notify</span>(
+				<span style=color:#e6db74>&#34;admin@coffeeMachine.com&#34;</span>,
+				<span style=color:#e6db74>`maintenanceNeeded property has changed, new value is: </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>servedCounter</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>
+			);
+		}
+	});
 </code></pre></td></tr></table></div></div><p>And then we are ready to initialize its value.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;servedCounter&#39;</span>, <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#39;servedCounter&#39;</span>));
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#a6e22e>servedCounter</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>readFromSensor</span>(<span style=color:#e6db74>&#34;servedCounter&#34;</span>);
 </code></pre></td></tr></table></div></div><p>We also want to override write and read handlers for <code>availableResourceLevel</code> property, since we need to utilize <code>uriVariables</code>.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
@@ -177,68 +195,31 @@ See an example below.</p><div class=highlight><div style=color:#f8f8f2;backgroun
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyWriteHandler</span>(<span style=color:#e6db74>&#39;availableResourceLevel&#39;</span>, (<span style=color:#a6e22e>val</span>, <span style=color:#a6e22e>options</span>) =&gt; {
-
-        <span style=color:#75715e>// Check if uriVariables are provided
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;object&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;uriVariables&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
-            <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>any</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>];
-            <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#39;id&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) {
-                <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>resources</span>) =&gt; {
-                    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>uriVariables</span>[<span style=color:#e6db74>&#39;id&#39;</span>];
-                    <span style=color:#a6e22e>resources</span>[<span style=color:#a6e22e>id</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>val</span>;
-                    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>, <span style=color:#a6e22e>resources</span>);
-                });
-            }
-        }
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-            <span style=color:#a6e22e>resolve</span>(<span style=color:#e6db74>&#39;Please specify id variable as uriVariables.&#39;</span>);
-        });
-    });
-
-    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#39;availableResourceLevel&#39;</span>, (<span style=color:#a6e22e>options</span>) =&gt; {
-
-        <span style=color:#75715e>// Check if uriVariables are provided
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;object&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;uriVariables&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
-            <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>any</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>];
-            <span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#39;id&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) {
-                <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>resources</span>) =&gt; {
-                    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>uriVariables</span>[<span style=color:#e6db74>&#39;id&#39;</span>];
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-                        <span style=color:#a6e22e>resolve</span>(<span style=color:#a6e22e>resources</span>[<span style=color:#a6e22e>id</span>]);
-                    });
-                });
-            }
-        }
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-            <span style=color:#a6e22e>resolve</span>(<span style=color:#e6db74>&#39;Please specify id variable as uriVariables.&#39;</span>);
-        });
-    });
-</code></pre></td></tr></table></div></div><p>As it has already been mentioned, <code>maintenanceNeeded</code> property is observable, meaning we can get notified when its value changes.
-For that, we need to provide a callback for the <code>observeProperty</code> method.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>observeProperty</span>(<span style=color:#e6db74>&#39;maintenanceNeeded&#39;</span>, (<span style=color:#a6e22e>data</span>) =&gt; {
-        
-        <span style=color:#75715e>// Notify a &#34;maintainer&#34; when the value has changed
-</span><span style=color:#75715e></span>        <span style=color:#75715e>// (the notify function here simply logs a message to the console)
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>notify</span>(<span style=color:#e6db74>&#39;admin@coffeeMachine.com&#39;</span>, <span style=color:#e6db74>`maintenanceNeeded property has changed, new value is: </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>data</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>);
-    });
-</code></pre></td></tr></table></div></div><p>Done with the Property Affordances!
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyWriteHandler</span>(<span style=color:#e6db74>&#34;availableResourceLevel&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>val</span>, <span style=color:#a6e22e>options</span>) =&gt; {
+		<span style=color:#75715e>// Check if uriVariables are provided
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#34;object&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;uriVariables&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
+			<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>.<span style=color:#a6e22e>uriVariables</span>;
+			<span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;id&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) {
+				<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>id</span>;
+				<span style=color:#a6e22e>allAvailableResources</span>[<span style=color:#a6e22e>id</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>val</span>.<span style=color:#a6e22e>value</span>();
+				<span style=color:#66d9ef>return</span>;
+			}
+		}
+		<span style=color:#66d9ef>throw</span> Error(<span style=color:#e6db74>&#34;Please specify id variable as uriVariables.&#34;</span>);
+	});
+	
+	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setPropertyReadHandler</span>(<span style=color:#e6db74>&#34;availableResourceLevel&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>options</span>) =&gt; {
+		<span style=color:#75715e>// Check if uriVariables are provided
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#34;object&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;uriVariables&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
+			<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>.<span style=color:#a6e22e>uriVariables</span>;
+			<span style=color:#66d9ef>if</span> (<span style=color:#e6db74>&#34;id&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) {
+				<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>id</span>;
+				<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>allAvailableResources</span>[<span style=color:#a6e22e>id</span>];
+			}
+		}
+		<span style=color:#66d9ef>throw</span> Error(<span style=color:#e6db74>&#34;Please specify id variable as uriVariables.&#34;</span>);
+	});
+</code></pre></td></tr></table></div></div><p>As it has already been mentioned, <code>maintenanceNeeded</code> property is observable, meaning we can could get notified when its value changes. For that, we need to provide a callback for the <code>observeProperty</code> method.</p><p>Done with the Property Affordances!
 Now we need to set up action handlers, which proceed when another Thing or client invokes the action.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
@@ -301,68 +282,94 @@ Now we need to set up action handlers, which proceed when another Thing or clien
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">60
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">61
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">62
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js> <span style=color:#75715e>// Set up a handler for makeDrink action
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#39;makeDrink&#39;</span>, (<span style=color:#a6e22e>params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
-
-        <span style=color:#75715e>// Default values
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;americano&#39;</span>;
-        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;m&#39;</span>;
-        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>quantity</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
-        
-        <span style=color:#75715e>// Size quantifiers
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>sizeQuantifiers</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>any</span> <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#39;s&#39;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.1</span>, <span style=color:#e6db74>&#39;m&#39;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.2</span>, <span style=color:#e6db74>&#39;l&#39;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.3</span>};
-        
-        <span style=color:#75715e>// Drink recipes showing the amount of a resource consumed for a particular drink
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>drinkRecipes</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>any</span> <span style=color:#f92672>=</span> {
-            <span style=color:#e6db74>&#39;espresso&#39;</span><span style=color:#f92672>:</span> { ... },
-            <span style=color:#e6db74>&#39;americano&#39;</span><span style=color:#f92672>:</span> { ... },
-            <span style=color:#e6db74>&#39;cappuccino&#39;</span><span style=color:#f92672>:</span> { ... },
-            <span style=color:#e6db74>&#39;latte&#39;</span><span style=color:#f92672>:</span> { ... },
-            <span style=color:#e6db74>&#39;hotChocolate&#39;</span><span style=color:#f92672>:</span> { ... },
-            <span style=color:#e6db74>&#39;hotWater&#39;</span><span style=color:#f92672>:</span> { ... },
-        }
-
-        <span style=color:#75715e>// Check if uriVariables are provided
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;object&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;uriVariables&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
-            <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>any</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>[<span style=color:#e6db74>&#39;uriVariables&#39;</span>];
-            <span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;drinkId&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>[<span style=color:#e6db74>&#39;drinkId&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#a6e22e>drinkId</span>;
-            <span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;size&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>[<span style=color:#e6db74>&#39;size&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#a6e22e>size</span>;
-            <span style=color:#a6e22e>quantity</span> <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;quantity&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>[<span style=color:#e6db74>&#39;quantity&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#a6e22e>quantity</span>;
-        }
-
-        <span style=color:#75715e>// Read the current level of allAvailableResources
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>resources</span>) =&gt; {
-            
-            <span style=color:#75715e>// Calculate the new level of resources
-</span><span style=color:#75715e></span>            <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>newResources</span> <span style=color:#f92672>=</span> Object.<span style=color:#a6e22e>assign</span>({}, <span style=color:#a6e22e>resources</span>);
-            <span style=color:#a6e22e>newResources</span>[<span style=color:#e6db74>&#39;water&#39;</span>] <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>][<span style=color:#e6db74>&#39;water&#39;</span>]);
-            <span style=color:#a6e22e>newResources</span>[<span style=color:#e6db74>&#39;milk&#39;</span>] <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>][<span style=color:#e6db74>&#39;milk&#39;</span>]);
-            <span style=color:#a6e22e>newResources</span>[<span style=color:#e6db74>&#39;chocolate&#39;</span>] <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>][<span style=color:#e6db74>&#39;chocolate&#39;</span>]);
-            <span style=color:#a6e22e>newResources</span>[<span style=color:#e6db74>&#39;coffeeBeans&#39;</span>] <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>][<span style=color:#e6db74>&#39;coffeeBeans&#39;</span>]);
-
-            <span style=color:#75715e>// Check if the amount of available resources is sufficient to make a drink
-</span><span style=color:#75715e></span>            <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>resource</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>newResources</span>) {
-                <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>newResources</span>[<span style=color:#a6e22e>resource</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>) {
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-                        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>emitEvent</span>(<span style=color:#e6db74>&#39;outOfResource&#39;</span>, <span style=color:#e6db74>`Low level of </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>resource</span><span style=color:#e6db74>}</span><span style=color:#e6db74>: </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>resources</span>[<span style=color:#a6e22e>resource</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>%`</span>);
-                        <span style=color:#a6e22e>resolve</span>({<span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>resource</span><span style=color:#e6db74>}</span><span style=color:#e6db74> level is not sufficient`</span>});
-                    });
-                }
-            }
-
-            <span style=color:#75715e>// Now store the new level of allAvailableResources
-</span><span style=color:#75715e></span>            <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>, <span style=color:#a6e22e>newResources</span>).<span style=color:#a6e22e>then</span>(() =&gt; {
-                <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;servedCounter&#39;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>counter</span>) =&gt; {
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-                        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;servedCounter&#39;</span>, <span style=color:#a6e22e>counter</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>quantity</span>);
-
-                        <span style=color:#75715e>// Finally deliver the drink
-</span><span style=color:#75715e></span>                        <span style=color:#a6e22e>resolve</span>({<span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Your </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>drinkId</span><span style=color:#e6db74>}</span><span style=color:#e6db74> is in progress!`</span>});
-                    });
-                });
-            });
-        });
-    });
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">63
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">64
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">65
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">66
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">67
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">68
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">69
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">70
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">71
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">72
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">73
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">74
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">75
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>	<span style=color:#75715e>// Set up a handler for makeDrink action
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#34;makeDrink&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>_params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
+		<span style=color:#75715e>// Default values
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;americano&#34;</span>;
+		<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;m&#34;</span>;
+		<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>quantity</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+		<span style=color:#75715e>// Size quantifiers
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>sizeQuantifiers</span> <span style=color:#f92672>=</span> { <span style=color:#a6e22e>s</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.1</span>, <span style=color:#a6e22e>m</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.2</span>, <span style=color:#a6e22e>l</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0.3</span> };
+		<span style=color:#75715e>// Drink recipes showing the amount of a resource consumed for a particular drink
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>drinkRecipes</span> <span style=color:#f92672>=</span> {
+			<span style=color:#a6e22e>espresso</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+			},
+			<span style=color:#a6e22e>americano</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+			},
+			<span style=color:#a6e22e>cappuccino</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+			},
+			<span style=color:#a6e22e>latte</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+			},
+			<span style=color:#a6e22e>hotChocolate</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+			},
+			<span style=color:#a6e22e>hotWater</span><span style=color:#f92672>:</span> {
+				<span style=color:#a6e22e>water</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>,
+				<span style=color:#a6e22e>milk</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>chocolate</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+				<span style=color:#a6e22e>coffeeBeans</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>,
+			},
+		};
+		<span style=color:#75715e>// Check if uriVariables are provided
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>options</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>options</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#34;object&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;uriVariables&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>options</span>) {
+			<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>options</span>.<span style=color:#a6e22e>uriVariables</span>;
+			<span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;drinkId&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>:</span> <span style=color:#a6e22e>drinkId</span>;
+			<span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;size&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>size</span> <span style=color:#f92672>:</span> <span style=color:#a6e22e>size</span>;
+			<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;quantity&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>uriVariables</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>uriVariables</span>.<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>:</span> <span style=color:#a6e22e>quantity</span>;
+		}
+		<span style=color:#75715e>// Calculate the new level of resources
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>newResources</span> <span style=color:#f92672>=</span> Object.<span style=color:#a6e22e>assign</span>({}, <span style=color:#a6e22e>allAvailableResources</span>);
+		<span style=color:#a6e22e>newResources</span>.<span style=color:#a6e22e>water</span> <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>].<span style=color:#a6e22e>water</span>);
+		<span style=color:#a6e22e>newResources</span>.<span style=color:#a6e22e>milk</span> <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>].<span style=color:#a6e22e>milk</span>);
+		<span style=color:#a6e22e>newResources</span>.<span style=color:#a6e22e>chocolate</span> <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>].<span style=color:#a6e22e>chocolate</span>);
+		<span style=color:#a6e22e>newResources</span>.<span style=color:#a6e22e>coffeeBeans</span> <span style=color:#f92672>-=</span> Math.<span style=color:#a6e22e>ceil</span>(<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>sizeQuantifiers</span>[<span style=color:#a6e22e>size</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>drinkRecipes</span>[<span style=color:#a6e22e>drinkId</span>].<span style=color:#a6e22e>coffeeBeans</span>);
+		<span style=color:#75715e>// Check if the amount of available resources is sufficient to make a drink
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>resource</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>newResources</span>) {
+			<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>newResources</span>[<span style=color:#a6e22e>resource</span>] <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>) {
+				<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
+					<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>emitEvent</span>(<span style=color:#e6db74>&#34;outOfResource&#34;</span>, <span style=color:#e6db74>`Low level of </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>resource</span><span style=color:#e6db74>}</span><span style=color:#e6db74>: </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>newResources</span>[<span style=color:#a6e22e>resource</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>%`</span>);
+					<span style=color:#66d9ef>return</span> { <span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>resource</span><span style=color:#e6db74>}</span><span style=color:#e6db74> level is not sufficient`</span> };
+				});
+			}
+		}
+		<span style=color:#75715e>// Now store the new level of allAvailableResources
+</span><span style=color:#75715e></span>		<span style=color:#a6e22e>allAvailableResources</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>newResources</span>;
+		<span style=color:#a6e22e>servedCounter</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>servedCounter</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>quantity</span>;
+		<span style=color:#75715e>// Finally deliver the drink
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>return</span> { <span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Your </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>drinkId</span><span style=color:#e6db74>}</span><span style=color:#e6db74> is in progress!`</span> };
+	});
 </code></pre></td></tr></table></div></div><p>Notice, how in case of insufficient resources the <code>outOfResource</code> event is emitted.
 Note also that <code>uriVariables</code> is being passed into options variable as a second argument of the handler.
 The first argument <code>params</code> contains a request body (i.e. payload of a request).</p><p>Another handler is for <code>setSchedule</code> action.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
@@ -382,41 +389,23 @@ The first argument <code>params</code> contains a request body (i.e. payload of 
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#75715e>// Set up a handler for setSchedule action
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#39;setSchedule&#39;</span>, (<span style=color:#a6e22e>params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
-
-        <span style=color:#75715e>// Check if uriVariables are provided
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>params</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>params</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;object&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;time&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>params</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#39;mode&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>params</span>) {
-
-            <span style=color:#75715e>// Use default values if not provided
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;drinkId&#39;</span>] <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;drinkId&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>params</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;drinkId&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;americano&#39;</span>;
-            <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;size&#39;</span>] <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;size&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>params</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;size&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;m&#39;</span>;
-            <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;quantity&#39;</span>] <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#39;quantity&#39;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>params</span>) <span style=color:#f92672>?</span> <span style=color:#a6e22e>params</span>[<span style=color:#e6db74>&#39;quantity&#39;</span>] <span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>;
-
-            <span style=color:#75715e>// Now read the schedules property, add a new schedule to it and then rewrite the schedules property
-</span><span style=color:#75715e></span>            <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;schedules&#39;</span>).<span style=color:#a6e22e>then</span>((<span style=color:#a6e22e>schedules</span>) =&gt; {
-                <span style=color:#a6e22e>schedules</span>.<span style=color:#a6e22e>push</span>(<span style=color:#a6e22e>params</span>);
-                <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;schedules&#39;</span>, <span style=color:#a6e22e>schedules</span>).<span style=color:#a6e22e>then</span>(() =&gt; {
-                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-                        <span style=color:#a6e22e>resolve</span>({<span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Your schedule has been set!`</span>});
-                    });
-                });
-            });
-
-        }
-        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
-            <span style=color:#a6e22e>resolve</span>({<span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Please provide all the required parameters: time and mode.`</span>});
-        });
-    });
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>	<span style=color:#75715e>// Set up a handler for setSchedule action
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>setActionHandler</span>(<span style=color:#e6db74>&#34;setSchedule&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>params</span>, <span style=color:#a6e22e>options</span>) =&gt; {
+		<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>params</span>.<span style=color:#a6e22e>value</span>(); <span style=color:#75715e>//  : any = await Helpers.parseInteractionOutput(params);
+</span><span style=color:#75715e></span>		<span style=color:#75715e>// Check if uriVariables are provided
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#34;object&#34;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;time&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#e6db74>&#34;mode&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>paramsp</span>) {
+			<span style=color:#75715e>// Use default values if not provided
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;drinkId&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>drinkId</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;americano&#34;</span>;
+			<span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>size</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;size&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>size</span> <span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;m&#34;</span>;
+			<span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;quantity&#34;</span> <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>paramsp</span> <span style=color:#f92672>?</span> <span style=color:#a6e22e>paramsp</span>.<span style=color:#a6e22e>quantity</span> <span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>;
+			<span style=color:#75715e>// Now add a new schedule
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>schedules</span>.<span style=color:#a6e22e>push</span>(<span style=color:#a6e22e>paramsp</span>);
+			<span style=color:#66d9ef>return</span> { <span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Your schedule has been set!`</span> };
+		}
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Promise((<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>reject</span>) =&gt; {
+			<span style=color:#a6e22e>resolve</span>({ <span style=color:#a6e22e>result</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>, <span style=color:#a6e22e>message</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Please provide all the required parameters: time and mode.`</span> });
+		});
+	});
 </code></pre></td></tr></table></div></div><p>As mentioned above, here we use the payload of a request, therefore we utilize the <code>params</code> variable.</p><p>Done with the Action Affordances!
 Now our final affordances, that is Event Affordances.
 We can specify a handler for an event, which then gets executed whenever the event is emitted.
@@ -426,9 +415,13 @@ So, the producer (server) only emits a particular event and the client is respon
 Below in the <a href=#consume-the-thing>client part</a> we will cover this process.</p><p>Now, finally, expose the Thing!</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#75715e>// Expose the Thing and log a message to the console
-</span><span style=color:#75715e></span>    <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>expose</span>().<span style=color:#a6e22e>then</span>( () =&gt; { <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span><span style=color:#e6db74>}</span><span style=color:#e6db74> ready`</span>); } ); 
-    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>`Produced </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>);
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>	<span style=color:#75715e>// Finally expose the thing
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>expose</span>().<span style=color:#a6e22e>then</span>(() =&gt; {
+		<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>info</span>(<span style=color:#e6db74>`</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span><span style=color:#e6db74>}</span><span style=color:#e6db74> ready`</span>);
+	});
+	<span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>`Produced </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>getThingDescription</span>().<span style=color:#a6e22e>title</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>);
 </code></pre></td></tr></table></div></div><h2 id=consume-the-thing>Consume the Thing</h2><p>So far we are done with the &ldquo;producer&rdquo; Thing and now our smart coffee machine can be interacted via any HTTP or CoAP client (default protocol bindings as mentioned above).
 The produced Thing Description is available at http://127.0.0.1:8080/smart-coffee-machine for HTTP and coap://127.0.0.1:5683/smart-coffee-machine for CoAP.
 By default, in HTTP binding the GET method is used for reading properties, PUT for writing and POST for invoking actions.
@@ -499,66 +492,84 @@ A property can be read using <code>thing.readProperty</code> method.</p><div cla
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// Read property allAvailableResources
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>allAvailableResources</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;allAvailableResources&#39;</span>);
-        <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;allAvailableResources value is:&#39;</span>, <span style=color:#a6e22e>allAvailableResources</span>);
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>allAvailableResources</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> (<span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;allAvailableResources&#34;</span>)).<span style=color:#a6e22e>value</span>();
+        <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;allAvailableResources value is:&#34;</span>, <span style=color:#a6e22e>allAvailableResources</span>);
 });
 </code></pre></td></tr></table></div></div><p>A property can be written using <code>thing.writeProperty</code> method.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// Now let&#39;s change water level to 80
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#39;availableResourceLevel&#39;</span>, <span style=color:#ae81ff>80</span>, {<span style=color:#e6db74>&#39;uriVariables&#39;</span><span style=color:#f92672>:</span> {<span style=color:#e6db74>&#39;id&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;water&#39;</span>}});
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>writeProperty</span>(<span style=color:#e6db74>&#34;availableResourceLevel&#34;</span>, <span style=color:#ae81ff>80</span>, { <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;water&#34;</span> } });
 });
 </code></pre></td></tr></table></div></div><p>Notice on usage of <code>uriVariables</code> here.
 In the same manner they can be used when reading properties which utilize <code>uriVariables</code>.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// And see that the water level has changed
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>waterLevel</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#39;availableResourceLevel&#39;</span>, {<span style=color:#e6db74>&#39;uriVariables&#39;</span><span style=color:#f92672>:</span> {<span style=color:#e6db74>&#39;id&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;water&#39;</span>}});
-        <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;waterLevel value after change is:&#39;</span>, <span style=color:#a6e22e>waterLevel</span>);
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>waterLevel</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> (
+            <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;availableResourceLevel&#34;</span>, { <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>id</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;water&#34;</span> } })
+        ).<span style=color:#a6e22e>value</span>();
+        <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;waterLevel value after change is:&#34;</span>, <span style=color:#a6e22e>waterLevel</span>);
 });
 </code></pre></td></tr></table></div></div><p>It&rsquo;s also possible to set a client-side handler for observable properties.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>observeProperty</span>(<span style=color:#e6db74>&#39;maintenanceNeeded&#39;</span>, (<span style=color:#a6e22e>data</span>) =&gt; {
-            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;maintenanceNeeded property has changed! New value is:&#39;</span>, <span style=color:#a6e22e>data</span>);
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>observeProperty</span>(<span style=color:#e6db74>&#34;maintenanceNeeded&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>data</span>) =&gt; {
+            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;maintenanceNeeded property has changed! New value is:&#34;</span>, <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>data</span>.<span style=color:#a6e22e>value</span>());
         });
 });
-</code></pre></td></tr></table></div></div><p>Notice that, here we don&rsquo;t need to await for a function to complete, since observing a property is a persistent action.</p><p>We can invoke an action using <code>thing.invokeAction</code> method.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</code></pre></td></tr></table></div></div><p>Notice that, here we don&rsquo;t need to await for a function to complete, since observing a property is a persistent action.</p><p>We can invoke an action using <code>thing.invokeAction</code> method.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// Now let&#39;s make 3 cups of latte!
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>makeCoffee</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>invokeAction</span>(<span style=color:#e6db74>&#39;makeDrink&#39;</span>, <span style=color:#66d9ef>undefined</span>, {<span style=color:#e6db74>&#39;uriVariables&#39;</span><span style=color:#f92672>:</span> {<span style=color:#e6db74>&#39;drinkId&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;latte&#39;</span>, <span style=color:#e6db74>&#39;size&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;l&#39;</span>, <span style=color:#e6db74>&#39;quantity&#39;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>3</span>}});
-        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>makeCoffee</span>[<span style=color:#e6db74>&#39;result&#39;</span>]) {
-            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;Enjoy your drink!&#39;</span>, <span style=color:#a6e22e>makeCoffee</span>);
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>makeCoffee</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>invokeAction</span>(<span style=color:#e6db74>&#34;makeDrink&#34;</span>, <span style=color:#66d9ef>undefined</span>, {
+            <span style=color:#a6e22e>uriVariables</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>drinkId</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;latte&#34;</span>, <span style=color:#a6e22e>size</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;l&#34;</span>, <span style=color:#a6e22e>quantity</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>3</span> },
+        });
+        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>makeCoffeep</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>makeCoffee</span>.<span style=color:#a6e22e>value</span>();
+        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>makeCoffeep</span>.<span style=color:#a6e22e>result</span>) {
+            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;Enjoy your drink!&#34;</span>, <span style=color:#a6e22e>makeCoffeep</span>);
         } <span style=color:#66d9ef>else</span> {
-            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;Failed making your drink:&#39;</span>, <span style=color:#a6e22e>makeCoffee</span>);
-        } 
+            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;Failed making your drink:&#34;</span>, <span style=color:#a6e22e>makeCoffeep</span>);
+        }
 </code></pre></td></tr></table></div></div><p>Notice on usage of <code>uriVariables</code> here.
 They are passed as a third argument, whereas the second one is the payload of a request.
-This can be well noted on invoking of <code>setSchedule</code> action.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
+This can be well noted on invoking of <code>setSchedule</code> action.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// Let&#39;s add a scheduled task
-</span><span style=color:#75715e></span>        <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>scheduledTask</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>invokeAction</span>(<span style=color:#e6db74>&#39;setSchedule&#39;</span>, {
-            <span style=color:#e6db74>&#39;drinkId&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;espresso&#39;</span>,
-            <span style=color:#e6db74>&#39;size&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;m&#39;</span>,
-            <span style=color:#e6db74>&#39;quantity&#39;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
-            <span style=color:#e6db74>&#39;time&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;10:00&#39;</span>,
-            <span style=color:#e6db74>&#39;mode&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;everyday&#39;</span>
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>scheduledTask</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>invokeAction</span>(<span style=color:#e6db74>&#34;setSchedule&#34;</span>, {
+            <span style=color:#a6e22e>drinkId</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;espresso&#34;</span>,
+            <span style=color:#a6e22e>size</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;m&#34;</span>,
+            <span style=color:#a6e22e>quantity</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>2</span>,
+            <span style=color:#a6e22e>time</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;10:00&#34;</span>,
+            <span style=color:#a6e22e>mode</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;everyday&#34;</span>,
         });
-        <span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>scheduledTask</span>[<span style=color:#e6db74>&#39;message&#39;</span>], <span style=color:#a6e22e>scheduledTask</span>);
+        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>scheduledTaskp</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>scheduledTask</span>.<span style=color:#a6e22e>value</span>();
+        <span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>scheduledTaskp</span>.<span style=color:#a6e22e>message</span>, <span style=color:#a6e22e>scheduledTaskp</span>);
+        <span style=color:#75715e>// See how it has been added to the schedules property
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>schedules</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> (<span style=color:#66d9ef>await</span> <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>readProperty</span>(<span style=color:#e6db74>&#34;schedules&#34;</span>)).<span style=color:#a6e22e>value</span>();
+        <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;schedules value: &#34;</span>, <span style=color:#a6e22e>schedules</span>);
 </code></pre></td></tr></table></div></div><p>As it is already mentioned above, we also want a client to subscribe for events emitted from the producer Thing.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
@@ -566,10 +577,10 @@ This can be well noted on invoking of <code>setSchedule</code> action.</p><div c
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
 </span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>        <span style=color:#75715e>// Let&#39;s set up a handler for outOfResource event
-</span><span style=color:#75715e></span>        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>subscribeEvent</span>(<span style=color:#e6db74>&#39;outOfResource&#39;</span>, (<span style=color:#a6e22e>data</span>) =&gt; {
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>thing</span>.<span style=color:#a6e22e>subscribeEvent</span>(<span style=color:#e6db74>&#34;outOfResource&#34;</span>, <span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>data</span>) =&gt; {
             <span style=color:#75715e>// Here we are simply logging the message when the event is emitted
 </span><span style=color:#75715e></span>            <span style=color:#75715e>// But, of course, could have a much more sophisticated handler
-</span><span style=color:#75715e></span>            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;outOfResource event:&#39;</span>, <span style=color:#a6e22e>data</span>);
+</span><span style=color:#75715e></span>            <span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;outOfResource event:&#34;</span>, <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>data</span>.<span style=color:#a6e22e>value</span>());
         });
 </code></pre></td></tr></table></div></div><p>Again, here we don&rsquo;t need to await for a function to complete, since subscribing for an event is a persistent action.</p><h2 id=running-scripts-from-node-wot-repository>Running scripts from node-wot repository</h2><p>As it is mentioned above, these example scripts are available at <a href=https://github.com/eclipse/thingweb.node-wot/blob/master/packages/examples/src/scripts>node-wot GitHub repository</a>.
 In order to run them do the following:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
@@ -635,7 +646,7 @@ Node-wot also supports oAuth 2.0, so let&rsquo;s extend this tutorial with the s
     ],
     <span style=color:#a6e22e>properties</span><span style=color:#f92672>:</span> {
         ...
-</code></pre></td></tr></table></div></div><p>The full script is available at node-wot GitHub repository as <a href=https://github.com/eclipse/thingweb.node-wot/blob/master/packages/examples/src/scripts/smart-coffee-machine-oauth.ts>smart-coffee-machine-oauth.ts</a>.</p><p>Now if we run the producer and the consumer Things as before that will fail.
+</code></pre></td></tr></table></div></div><p>Now if we run the producer and the consumer Things as before that will fail.
 The reason is simple - the client is not authorized.
 Let&rsquo;s fix it.</p><p>We need an additional configuration file which will contain the appropriate credentials.
 The configuration file contains the following and is available as <a href=https://github.com/eclipse/thingweb.node-wot/tree/master/examples/scripts/smart-coffee-machine-client.conf.json>smart-coffee-machine-client.conf.json</a>:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
